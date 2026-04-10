@@ -1,0 +1,21 @@
+{
+  "name": "Playful",
+  "description": "Bright, energetic colors with rounded geometry and friendly rhythm.",
+  "recommendedTemplates": ["E-commerce", "Portfolio"],
+  "state": {
+    "background": "#fff9ec",
+    "text": "#2f1f14",
+    "primary": "#ff5a5f",
+    "secondary": "#ffc857",
+    "accent": "#2ec4b6",
+    "fontFamily": "Nunito, system-ui",
+    "typeScale": "1.25",
+    "fontWeight": "Medium",
+    "letterSpacing": 0,
+    "borderRadius": 16,
+    "buttonStyle": "Filled",
+    "baseSpacing": 18,
+    "shadowIntensity": "Soft",
+    "borderVisibility": "None"
+  }
+}

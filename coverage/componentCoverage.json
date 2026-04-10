@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-04-09T00:00:00.000Z",
+  "components": {
+    "button": {
+      "supported": ["color", "typography", "radius", "spacing", "shadow", "states"],
+      "unsupported": []
+    },
+    "input": {
+      "supported": ["color", "typography", "radius", "spacing", "states"],
+      "unsupported": ["shadow"]
+    },
+    "card": {
+      "supported": ["color", "radius", "spacing", "shadow"],
+      "unsupported": ["states"]
+    },
+    "nav": {
+      "supported": ["color", "typography", "spacing"],
+      "unsupported": ["radius", "shadow", "states"]
+    },
+    "form": {
+      "supported": ["color", "typography", "spacing", "radius", "states"],
+      "unsupported": []
+    },
+    "badge": {
+      "supported": ["color", "typography", "radius", "spacing"],
+      "unsupported": ["shadow"]
+    }
+  }
+}

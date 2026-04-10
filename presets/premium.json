@@ -1,0 +1,21 @@
+{
+  "name": "Premium",
+  "description": "Elegant dark surfaces with restrained accents and refined typography.",
+  "recommendedTemplates": ["Agency", "E-commerce"],
+  "state": {
+    "background": "#15110f",
+    "text": "#f2ede8",
+    "primary": "#c49a6c",
+    "secondary": "#7f6d5d",
+    "accent": "#e2c38f",
+    "fontFamily": "Cormorant Garamond, serif",
+    "typeScale": "1.333",
+    "fontWeight": "Regular",
+    "letterSpacing": 0.5,
+    "borderRadius": 10,
+    "buttonStyle": "Outline",
+    "baseSpacing": 18,
+    "shadowIntensity": "Medium",
+    "borderVisibility": "Subtle"
+  }
+}

@@ -11,7 +11,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "quality:check": "node scripts/quality-check.mjs",
+    "summary:weekly": "node scripts/weekly-design-health-summary.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

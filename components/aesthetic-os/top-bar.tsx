@@ -11,6 +11,8 @@ import {
   BookmarkPlus,
   PanelLeftOpen,
   Code2,
+  FileJson,
+  ShieldAlert,
 } from "lucide-react";
 import { track } from "@vercel/analytics";
 import { Button } from "@/components/ui/button";
@@ -18,12 +20,18 @@ import {
   type PresetName,
   PRESETS,
   type DesignState,
+  type TemplateName,
   parseImportedState,
-  stateToCSS,
-  stateToTailwindTheme,
-  stateToTokenJSON,
 } from "@/lib/design-state";
 import { cn } from "@/lib/utils";
+import {
+  exportCSSVariables,
+  exportDesignTokensJSON,
+  exportFigmaTokens,
+  exportTailwindConfig,
+  generateExportReport,
+} from "@/exporters";
+import { recordHealthEvent } from "@/analytics/design-system-health";
 
 const PRESET_NAMES: PresetName[] = [
   "Minimal",
@@ -43,6 +51,8 @@ interface TopBarProps {
   currentPreset: PresetName | null;
   onPresetChange: (preset: PresetName) => void;
   designState: DesignState;
+  activeTemplate: TemplateName;
+  canExport: boolean;
   onImportState: (updates: Partial<DesignState>) => void;
   onCreateShareLink: () => string;
   onSaveTheme: () => void;
@@ -53,13 +63,15 @@ export function TopBar({
   currentPreset,
   onPresetChange,
   designState,
+  activeTemplate,
+  canExport,
   onImportState,
   onCreateShareLink,
   onSaveTheme,
   onOpenControls,
 }: TopBarProps) {
   const [status, setStatus] = useState<
-    "css" | "tokens" | "tailwind" | "share" | "import" | "save" | null
+    "css" | "tokens" | "tailwind" | "figma" | "report" | "share" | "import" | "save" | "blocked" | null
   >(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -84,16 +96,52 @@ export function TopBar({
   };
 
   const handleExportCSS = async () => {
-    const css = stateToCSS(designState);
-    await copyToClipboard(css, "css", "export_css");
+    recordHealthEvent("export_attempted", { format: "css", template: activeTemplate });
+    if (!canExport) {
+      showStatus("blocked");
+      return;
+    }
+
+    await copyToClipboard(exportCSSVariables(designState), "css", "export_css");
+    recordHealthEvent("export_succeeded", { format: "css", template: activeTemplate });
   };
 
   const handleExportTokens = async () => {
-    await copyToClipboard(stateToTokenJSON(designState), "tokens", "export_tokens_json");
+    recordHealthEvent("export_attempted", { format: "tokens", template: activeTemplate });
+    if (!canExport) {
+      showStatus("blocked");
+      return;
+    }
+
+    await copyToClipboard(exportDesignTokensJSON(designState), "tokens", "export_tokens_json");
+    recordHealthEvent("export_succeeded", { format: "tokens", template: activeTemplate });
   };
 
   const handleExportTailwind = async () => {
-    await copyToClipboard(stateToTailwindTheme(designState), "tailwind", "export_tailwind_theme");
+    recordHealthEvent("export_attempted", { format: "tailwind", template: activeTemplate });
+    if (!canExport) {
+      showStatus("blocked");
+      return;
+    }
+
+    await copyToClipboard(exportTailwindConfig(designState), "tailwind", "export_tailwind_theme");
+    recordHealthEvent("export_succeeded", { format: "tailwind", template: activeTemplate });
+  };
+
+  const handleExportFigma = async () => {
+    recordHealthEvent("export_attempted", { format: "figma", template: activeTemplate });
+    if (!canExport) {
+      showStatus("blocked");
+      return;
+    }
+
+    await copyToClipboard(exportFigmaTokens(designState), "figma", "export_figma_tokens");
+    recordHealthEvent("export_succeeded", { format: "figma", template: activeTemplate });
+  };
+
+  const handleExportReport = async () => {
+    const report = JSON.stringify(generateExportReport(designState), null, 2);
+    await copyToClipboard(report, "report", "export_report");
   };
 
   const handleShare = async () => {
@@ -229,6 +277,26 @@ export function TopBar({
           type="button"
           variant="outline"
           size="sm"
+          onClick={handleExportFigma}
+          className="bg-transparent border-neutral-700 text-neutral-300 hover:bg-neutral-800 hover:text-white"
+        >
+          <FileJson className="h-4 w-4 md:mr-1.5" />
+          <span className="hidden md:inline">Figma</span>
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={handleExportReport}
+          className="bg-transparent border-neutral-700 text-neutral-300 hover:bg-neutral-800 hover:text-white"
+        >
+          <ShieldAlert className="h-4 w-4 md:mr-1.5" />
+          <span className="hidden md:inline">Report</span>
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
           onClick={handleExportTailwind}
           className="bg-transparent border-neutral-700 text-neutral-300 hover:bg-neutral-800 hover:text-white"
         >
@@ -241,9 +309,12 @@ export function TopBar({
             {status === "css" && "CSS copied"}
             {status === "tokens" && "Token JSON copied"}
             {status === "tailwind" && "Tailwind theme copied"}
+            {status === "figma" && "Figma tokens copied"}
+            {status === "report" && "Export report copied"}
             {status === "share" && "Share link copied"}
             {status === "import" && "Theme imported"}
             {status === "save" && "Theme saved"}
+            {status === "blocked" && "Resolve validation errors before export"}
           </span>
         )}
       </div>

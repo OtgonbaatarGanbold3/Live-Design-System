@@ -1,0 +1,21 @@
+{
+  "name": "Bold",
+  "description": "High-contrast expression with assertive accents and stronger hierarchy.",
+  "recommendedTemplates": ["Agency", "SaaS Landing"],
+  "state": {
+    "background": "#111111",
+    "text": "#f6f6f6",
+    "primary": "#f97316",
+    "secondary": "#8b8b8b",
+    "accent": "#facc15",
+    "fontFamily": "Space Grotesk, system-ui",
+    "typeScale": "1.333",
+    "fontWeight": "Bold",
+    "letterSpacing": 0.5,
+    "borderRadius": 6,
+    "buttonStyle": "Filled",
+    "baseSpacing": 16,
+    "shadowIntensity": "Medium",
+    "borderVisibility": "Strong"
+  }
+}

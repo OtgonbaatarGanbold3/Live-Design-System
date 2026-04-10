@@ -1,0 +1,21 @@
+{
+  "name": "Editorial",
+  "description": "Typography-first aesthetic with generous spacing and classic proportions.",
+  "recommendedTemplates": ["Portfolio", "Agency"],
+  "state": {
+    "background": "#f9f7f2",
+    "text": "#1f1c1a",
+    "primary": "#5a4635",
+    "secondary": "#8a7968",
+    "accent": "#8f3f2f",
+    "fontFamily": "Merriweather, Georgia, serif",
+    "typeScale": "1.414",
+    "fontWeight": "Regular",
+    "letterSpacing": 0.2,
+    "borderRadius": 4,
+    "buttonStyle": "Ghost",
+    "baseSpacing": 20,
+    "shadowIntensity": "None",
+    "borderVisibility": "Subtle"
+  }
+}

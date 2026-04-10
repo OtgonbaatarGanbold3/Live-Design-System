@@ -1,0 +1,9 @@
+{
+  "weights": {
+    "accessibility": 0.35,
+    "responsiveness": 0.2,
+    "consistency": 0.3,
+    "performance": 0.15
+  },
+  "minimumPublishScore": 75
+}

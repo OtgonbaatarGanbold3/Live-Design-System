@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AestheticOS Design Token Schema",
+  "type": "object",
+  "required": ["version", "themes"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "themes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/theme"
+      }
+    }
+  },
+  "definitions": {
+    "tokenReference": {
+      "type": "object",
+      "required": ["$ref"],
+      "additionalProperties": false,
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "pattern": "^(primitive|semantic|component)\\.[a-z0-9]+([.-][a-z0-9]+)*$"
+        },
+        "allowPrimitiveReference": {
+          "type": "boolean"
+        }
+      }
+    },
+    "tokenValue": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "$ref": "#/definitions/tokenReference"
+        }
+      ]
+    },
+    "tokenDefinition": {
+      "type": "object",
+      "required": ["type", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["color", "spacing", "radius", "shadow", "typography", "size", "other"]
+        },
+        "value": {
+          "$ref": "#/definitions/tokenValue"
+        }
+      }
+    },
+    "tokenLayer": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z0-9]+([.-][a-z0-9]+)*$"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/tokenDefinition"
+      }
+    },
+    "tokenSet": {
+      "type": "object",
+      "required": ["primitive", "semantic", "component"],
+      "additionalProperties": false,
+      "properties": {
+        "primitive": {
+          "$ref": "#/definitions/tokenLayer"
+        },
+        "semantic": {
+          "$ref": "#/definitions/tokenLayer"
+        },
+        "component": {
+          "$ref": "#/definitions/tokenLayer"
+        }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "required": ["id", "name", "modes"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extends": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean"]
+          }
+        },
+        "modes": {
+          "type": "object",
+          "required": ["light", "dark"],
+          "additionalProperties": false,
+          "properties": {
+            "light": {
+              "$ref": "#/definitions/tokenSet"
+            },
+            "dark": {
+              "$ref": "#/definitions/tokenSet"
+            }
+          }
+        }
+      }
+    }
+  }
+}

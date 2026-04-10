@@ -1,0 +1,21 @@
+{
+  "name": "Calm",
+  "description": "Soft, balanced tones for products focused on trust and clarity.",
+  "recommendedTemplates": ["SaaS Landing", "Portfolio"],
+  "state": {
+    "background": "#f4f8fb",
+    "text": "#1f2a37",
+    "primary": "#3f8fb3",
+    "secondary": "#8cb3c8",
+    "accent": "#5da4a0",
+    "fontFamily": "Inter, system-ui",
+    "typeScale": "1.25",
+    "fontWeight": "Regular",
+    "letterSpacing": 0,
+    "borderRadius": 12,
+    "buttonStyle": "Filled",
+    "baseSpacing": 16,
+    "shadowIntensity": "Soft",
+    "borderVisibility": "Subtle"
+  }
+}
