@@ -1,392 +1,366 @@
 "use client";
 
+import {
+  ArrowRight,
+  Compass,
+  Megaphone,
+  Palette,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+  type LucideIcon,
+} from "lucide-react";
 import type { DesignState } from "@/lib/design-state";
-import { getPreviewStyles, PreviewButton } from "./shared-styles";
+import {
+  getPreviewStyles,
+  PreviewBadge,
+  PreviewButton,
+  PreviewCard,
+} from "./shared-styles";
 
 interface AgencyProps {
   state: DesignState;
 }
 
+interface Service {
+  title: string;
+  desc: string;
+  icon: LucideIcon;
+  outcomes: string[];
+}
+
 export function Agency({ state }: AgencyProps) {
   const s = getPreviewStyles(state);
+  const space = s.helpers.space;
 
-  const clients = ["ACME", "STARK", "WAYNE", "OSCORP", "UMBRELLA", "LEXCORP"];
-  const services = [
-    { title: "Brand Strategy", desc: "We craft compelling brand narratives that resonate with your audience and drive growth.", icon: "compass" },
-    { title: "Digital Design", desc: "From websites to apps, we create digital experiences that captivate and convert.", icon: "palette" },
-    { title: "Marketing", desc: "Data-driven campaigns that amplify your message and maximize ROI.", icon: "megaphone" },
+  const clients = [
+    { name: "ACME", industry: "SaaS" },
+    { name: "STARK", industry: "Hardware" },
+    { name: "WAYNE", industry: "Enterprise" },
+    { name: "OSCORP", industry: "Healthcare" },
+    { name: "UMBRELLA", industry: "Consumer" },
+    { name: "LEXCORP", industry: "Finance" },
   ];
+
+  const services: Service[] = [
+    {
+      title: "Brand Strategy",
+      desc: "Clarify positioning, narrative, and category differentiation for ambitious teams.",
+      icon: Compass,
+      outcomes: ["Category map", "Messaging architecture", "Go-to-market narrative"],
+    },
+    {
+      title: "Digital Design",
+      desc: "Design product and campaign experiences that balance clarity, speed, and emotion.",
+      icon: Palette,
+      outcomes: ["Responsive systems", "Prototype validation", "Design governance"],
+    },
+    {
+      title: "Growth Marketing",
+      desc: "Build measurable acquisition and retention loops across paid, owned, and lifecycle channels.",
+      icon: Megaphone,
+      outcomes: ["Funnel optimization", "Experiment roadmap", "Creative testing"],
+    },
+  ];
+
   const team = [
-    { name: "Sarah Chen", role: "Creative Director" },
-    { name: "Marcus Johnson", role: "Lead Designer" },
-    { name: "Emma Wilson", role: "Strategy Lead" },
-    { name: "David Park", role: "Tech Director" },
+    { name: "Sarah Chen", role: "Creative Director", focus: "Brand & narrative systems" },
+    { name: "Marcus Johnson", role: "Design Director", focus: "Product and interaction quality" },
+    { name: "Emma Wilson", role: "Strategy Lead", focus: "Positioning and GTM alignment" },
+    { name: "David Park", role: "Technology Lead", focus: "Front-end and platform delivery" },
   ];
+
   const stats = [
-    { value: "150+", label: "Projects Delivered" },
-    { value: "98%", label: "Client Retention" },
-    { value: "40+", label: "Awards Won" },
-    { value: "12", label: "Countries" },
+    { value: "180+", label: "Projects Delivered", trend: "+19 this year" },
+    { value: "96%", label: "Client Retention", trend: "7-year avg" },
+    { value: "44", label: "Awards Won", trend: "Global juries" },
+    { value: "23", label: "Markets Served", trend: "Across 4 regions" },
   ];
+
   const caseStudies = [
-    { title: "TechCorp Rebrand", category: "Branding", result: "+340% brand recognition" },
-    { title: "FinApp Launch", category: "Digital Product", result: "2M downloads in 3 months" },
+    {
+      title: "TechCorp Rebrand",
+      category: "Brand Transformation",
+      result: "+340% aided recognition",
+      summary: "Unified product story and visual language across 11 business units.",
+    },
+    {
+      title: "FinApp Launch",
+      category: "Product + Growth",
+      result: "2M downloads in 3 months",
+      summary: "Designed launch journey, onboarding experience, and activation campaigns.",
+    },
+    {
+      title: "Aether Commerce",
+      category: "E-commerce Experience",
+      result: "+29% checkout conversion",
+      summary: "Rebuilt purchase flow and merchandising system for mobile-first shoppers.",
+    },
+    {
+      title: "Pulse Healthcare",
+      category: "Service Platform",
+      result: "-42% support tickets",
+      summary: "Introduced self-serve UX and content model for patient care workflows.",
+    },
   ];
 
   return (
     <div style={s.root} className="preview-reset">
-      {/* Nav */}
       <nav
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: `${state.baseSpacing}px ${state.baseSpacing * 2}px`,
+          padding: `${space(1)}px ${space(2)}px`,
           borderBottom: s.border,
           position: "sticky",
           top: 0,
           background: state.background,
-          zIndex: 10,
+          zIndex: 20,
         }}
       >
-        <div style={{ fontWeight: 700, fontSize: "1.25rem", letterSpacing: 2 }}>AGENCY</div>
-        <div style={{ display: "flex", gap: state.baseSpacing * 2, fontSize: "0.875rem", flexWrap: "wrap", justifyContent: "center" }}>
-          <a href="#" style={{ opacity: 0.7 }}>Work</a>
-          <a href="#" style={{ opacity: 0.7 }}>Services</a>
-          <a href="#" style={{ opacity: 0.7 }}>About</a>
+        <div style={{ fontWeight: 800, fontSize: "1.1rem", letterSpacing: 1.8 }}>A•GENCY</div>
+        <div style={{ display: "flex", gap: space(1.5), fontSize: "0.84rem", opacity: 0.78 }}>
+          <a href="#">Work</a>
+          <a href="#">Services</a>
+          <a href="#">Team</a>
+          <a href="#">Contact</a>
         </div>
-        <PreviewButton state={state} variant="primary">Contact</PreviewButton>
+        <PreviewButton state={state} variant="primary">
+          Start a Project
+        </PreviewButton>
       </nav>
 
-      {/* Hero */}
       <section
         style={{
-          padding: `${state.baseSpacing * 8}px ${state.baseSpacing * 2}px`,
-          minHeight: "70vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          padding: `${space(6)}px ${space(2)}px ${space(4)}px`,
+          background: `radial-gradient(circle at 12% 5%, ${state.accent}24, transparent 45%)`,
         }}
       >
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: state.baseSpacing,
-            marginBottom: state.baseSpacing * 2,
-          }}
-        >
-          <span
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: state.accent,
-              animation: "pulse 2s infinite",
-            }}
-          />
-          <span style={{ fontSize: "0.875rem", opacity: 0.6, textTransform: "uppercase", letterSpacing: 2 }}>
-            Available for projects
-          </span>
-        </div>
+        <PreviewBadge state={state} tone="accent">
+          <Sparkles size={12} />
+          Booking Q3 strategy sprints
+        </PreviewBadge>
+
         <h1
           style={{
-            fontSize: `calc(3.5rem * ${state.typeScale})`,
-            fontWeight: state.fontWeight === "Light" ? 300 : state.fontWeight === "Bold" ? 700 : 400,
-            lineHeight: 1,
-            marginBottom: state.baseSpacing * 2,
-            maxWidth: "90%",
+            fontSize: `calc(3.2rem * ${state.typeScale})`,
+            lineHeight: s.helpers.lineHeight.tight,
+            letterSpacing: -0.8,
+            marginTop: space(1.5),
+            marginBottom: 12,
+            maxWidth: 860,
           }}
         >
-          We build brands that move people.
+          We build brand systems that move markets.
         </h1>
         <p
           style={{
-            fontSize: "1.125rem",
-            opacity: 0.6,
-            maxWidth: 550,
-            marginBottom: state.baseSpacing * 3,
-            lineHeight: 1.7,
+            maxWidth: 700,
+            opacity: 0.7,
+            margin: 0,
+            fontSize: "1rem",
+            lineHeight: s.helpers.lineHeight.relaxed,
           }}
         >
-          A full-service creative agency transforming ambitious ideas into extraordinary results. We blend strategy, design, and technology.
+          Strategy, design, and delivery under one operating model. We help ambitious teams turn
+          direction into execution with measurable business impact.
         </p>
-        <div style={{ display: "flex", gap: state.baseSpacing, flexWrap: "wrap" }}>
-          <PreviewButton state={state} variant="primary">Start a Project</PreviewButton>
-          <PreviewButton state={state} variant="secondary">Our Work</PreviewButton>
-        </div>
-      </section>
 
-      {/* Stats */}
-      <section
-        style={{
-          padding: `${state.baseSpacing * 3}px ${state.baseSpacing * 2}px`,
-          borderTop: s.border,
-          borderBottom: s.border,
-        }}
-      >
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: state.baseSpacing * 2 }}>
+        <div style={{ marginTop: space(2), display: "flex", gap: space(1), flexWrap: "wrap" }}>
+          <PreviewButton state={state} variant="primary">
+            Start a Project
+          </PreviewButton>
+          <PreviewButton state={state} variant="secondary">
+            View Case Studies
+          </PreviewButton>
+        </div>
+
+        <div
+          style={{
+            marginTop: space(3),
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
+            gap: 10,
+            maxWidth: 980,
+          }}
+        >
           {stats.map((stat) => (
-            <div key={stat.label} style={{ textAlign: "center" }}>
-              <div
-                style={{
-                  fontSize: `calc(2rem * ${state.typeScale})`,
-                  fontWeight: 700,
-                  color: state.primary,
-                  marginBottom: 4,
-                }}
-              >
-                {stat.value}
-              </div>
-              <div style={{ fontSize: "0.75rem", opacity: 0.5, textTransform: "uppercase", letterSpacing: 1 }}>
+            <PreviewCard key={stat.label} state={state} variant="subtle" style={{ textAlign: "left" }}>
+              <p style={{ margin: 0, fontSize: "1.35rem", fontWeight: 760, color: state.primary }}>{stat.value}</p>
+              <p style={{ margin: "4px 0", fontSize: "0.72rem", opacity: 0.6, textTransform: "uppercase", letterSpacing: 1 }}>
                 {stat.label}
-              </div>
-            </div>
+              </p>
+              <p style={{ margin: 0, color: state.accent, fontWeight: 650, fontSize: "0.74rem" }}>{stat.trend}</p>
+            </PreviewCard>
           ))}
         </div>
       </section>
 
-      {/* Client Logos */}
-      <section
-        style={{
-          padding: `${state.baseSpacing * 2}px 0`,
-          background: `${state.secondary}05`,
-        }}
-      >
-        <p style={{ textAlign: "center", fontSize: "0.75rem", opacity: 0.4, marginBottom: state.baseSpacing, textTransform: "uppercase", letterSpacing: 2 }}>
-          Trusted by industry leaders
+      <section style={{ padding: `0 ${space(2)}px ${space(3)}px` }}>
+        <p style={{ textAlign: "center", margin: `0 0 ${space(1)}px`, fontSize: "0.74rem", opacity: 0.52, letterSpacing: 1.3, textTransform: "uppercase" }}>
+          Trusted by growth-stage and enterprise teams
         </p>
+
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: state.baseSpacing * 4,
-            padding: `0 ${state.baseSpacing * 2}px`,
+            maxWidth: 1020,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+            gap: 10,
           }}
         >
           {clients.map((client) => (
-            <span
-              key={client}
-              style={{
-                fontSize: "1rem",
-                fontWeight: 700,
-                opacity: 0.3,
-                letterSpacing: 3,
-              }}
-            >
-              {client}
-            </span>
+            <PreviewCard key={client.name} state={state} variant="subtle" style={{ textAlign: "center", padding: space(1) }}>
+              <p style={{ margin: 0, fontWeight: 700, letterSpacing: 1.2, fontSize: "0.82rem" }}>{client.name}</p>
+              <p style={{ margin: "5px 0 0", opacity: 0.58, fontSize: "0.7rem" }}>{client.industry}</p>
+            </PreviewCard>
           ))}
         </div>
       </section>
 
-      {/* Services */}
-      <section style={{ padding: `${state.baseSpacing * 6}px ${state.baseSpacing * 2}px` }}>
-        <div style={{ maxWidth: 1000, marginLeft: "auto", marginRight: "auto" }}>
-          <h2
+      <section style={{ padding: `${space(3)}px ${space(2)}px` }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <h2 style={{ margin: "0 0 8px", fontSize: `calc(1.55rem * ${state.typeScale})` }}>Core services</h2>
+          <p style={{ margin: `0 0 ${space(2)}px`, opacity: 0.68, maxWidth: 620, lineHeight: s.helpers.lineHeight.relaxed, fontSize: "0.88rem" }}>
+            Full-funnel capabilities that align strategy, product quality, and growth outcomes.
+          </p>
+
+          <div
             style={{
-              fontSize: `calc(1.75rem * ${state.typeScale})`,
-              fontWeight: 700,
-              marginBottom: state.baseSpacing / 2,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: space(1.25),
             }}
           >
-            What We Do
-          </h2>
-          <p style={{ opacity: 0.6, marginBottom: state.baseSpacing * 4, maxWidth: 500 }}>
-            End-to-end creative services that help you stand out in a crowded market.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: state.baseSpacing * 2 }}>
-            {services.map((service, i) => (
-              <div
-                key={service.title}
-                style={{
-                  padding: state.baseSpacing * 2,
-                  borderRadius: state.borderRadius,
-                  border: s.border,
-                  background: state.preset === "Glassmorphism" ? "rgba(255,255,255,0.05)" : "transparent",
-                }}
-              >
-                <div
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: state.borderRadius,
-                    background: `${[state.primary, state.accent, state.secondary][i]}15`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: state.baseSpacing * 1.5,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 20,
-                      height: 20,
-                      borderRadius: 4,
-                      background: [state.primary, state.accent, state.secondary][i],
-                    }}
-                  />
-                </div>
-                <h3 style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: state.baseSpacing / 2 }}>
-                  {service.title}
-                </h3>
-                <p style={{ opacity: 0.6, fontSize: "0.875rem", lineHeight: 1.7 }}>{service.desc}</p>
-              </div>
-            ))}
+            {services.map((service) => {
+              const Icon = service.icon;
+              return (
+                <PreviewCard key={service.title} state={state} variant="base">
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                    <span
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 8,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background: `${state.primary}22`,
+                      }}
+                    >
+                      <Icon size={16} color={state.primary} />
+                    </span>
+                    <h3 style={{ margin: 0, fontWeight: 650, fontSize: "1rem" }}>{service.title}</h3>
+                  </div>
+
+                  <p style={{ margin: 0, opacity: 0.72, fontSize: "0.84rem", lineHeight: 1.65 }}>{service.desc}</p>
+
+                  <ul style={{ margin: `${space(1)}px 0 0`, padding: 0, listStyle: "none", display: "grid", gap: 6 }}>
+                    {service.outcomes.map((outcome) => (
+                      <li key={outcome} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: "0.78rem", opacity: 0.78 }}>
+                        <ShieldCheck size={13} color={state.accent} />
+                        <span>{outcome}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </PreviewCard>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Case Studies */}
-      <section style={{ padding: `${state.baseSpacing * 4}px ${state.baseSpacing * 2}px`, background: `${state.secondary}05` }}>
-        <div style={{ maxWidth: 1000, marginLeft: "auto", marginRight: "auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: state.baseSpacing * 3 }}>
-            <h2 style={{ fontSize: `calc(1.75rem * ${state.typeScale})`, fontWeight: 700 }}>Featured Work</h2>
-            <a href="#" style={{ fontSize: "0.875rem", color: state.primary }}>View All &rarr;</a>
+      <section style={{ padding: `${space(3)}px ${space(2)}px`, background: s.surface.subtle }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: space(1), marginBottom: space(1.5) }}>
+            <h2 style={{ margin: 0, fontSize: `calc(1.55rem * ${state.typeScale})` }}>Featured work</h2>
+            <button
+              type="button"
+              style={{
+                border: "none",
+                background: "transparent",
+                color: state.primary,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+                fontWeight: 650,
+                fontSize: "0.84rem",
+                cursor: "pointer",
+              }}
+            >
+              View all <ArrowRight size={14} />
+            </button>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: state.baseSpacing * 2 }}>
-            {caseStudies.map((study, i) => (
-              <div
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: space(1.25) }}>
+            {caseStudies.map((study, index) => (
+              <PreviewCard
                 key={study.title}
+                state={state}
+                variant="elevated"
                 style={{
-                  background: `linear-gradient(135deg, ${[state.primary, state.accent][i]}15 0%, ${[state.accent, state.secondary][i]}10 100%)`,
-                  borderRadius: state.borderRadius,
-                  border: s.border,
-                  padding: state.baseSpacing * 2,
-                  minHeight: 200,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
+                  background: `linear-gradient(145deg, ${[state.primary, state.accent, state.secondary, state.primary][index]}18 0%, ${state.background} 60%)`,
                 }}
               >
-                <span style={{ fontSize: "0.75rem", opacity: 0.5, textTransform: "uppercase", letterSpacing: 1 }}>
+                <PreviewBadge state={state} tone="neutral" style={{ marginBottom: 10 }}>
                   {study.category}
-                </span>
-                <h3 style={{ fontSize: "1.25rem", fontWeight: 600, marginTop: 4, marginBottom: state.baseSpacing }}>
-                  {study.title}
-                </h3>
-                <div
-                  style={{
-                    display: "inline-block",
-                    padding: `4px ${state.baseSpacing}px`,
-                    borderRadius: state.borderRadius,
-                    background: `${state.accent}20`,
-                    color: state.accent,
-                    fontSize: "0.75rem",
-                    fontWeight: 600,
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  {study.result}
+                </PreviewBadge>
+                <h3 style={{ margin: 0, marginBottom: 8, fontSize: "1.05rem", lineHeight: 1.35 }}>{study.title}</h3>
+                <p style={{ margin: 0, opacity: 0.72, lineHeight: 1.6, fontSize: "0.82rem" }}>{study.summary}</p>
+
+                <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ color: state.accent, fontWeight: 700, fontSize: "0.78rem" }}>{study.result}</span>
+                  <TrendingUp size={14} color={state.primary} />
                 </div>
-              </div>
+              </PreviewCard>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Team */}
-      <section style={{ padding: `${state.baseSpacing * 6}px ${state.baseSpacing * 2}px` }}>
-        <div style={{ maxWidth: 1000, marginLeft: "auto", marginRight: "auto" }}>
-          <h2
-            style={{
-              fontSize: `calc(1.75rem * ${state.typeScale})`,
-              fontWeight: 700,
-              marginBottom: state.baseSpacing / 2,
-            }}
-          >
-            The Team
-          </h2>
-          <p style={{ opacity: 0.6, marginBottom: state.baseSpacing * 3, maxWidth: 400 }}>
-            A diverse group of thinkers, makers, and dreamers.
+      <section style={{ padding: `${space(3)}px ${space(2)}px ${space(4)}px` }}>
+        <div style={{ maxWidth: 980, margin: "0 auto" }}>
+          <h2 style={{ margin: "0 0 8px", fontSize: `calc(1.45rem * ${state.typeScale})` }}>Team</h2>
+          <p style={{ margin: `0 0 ${space(1.5)}px`, opacity: 0.68, maxWidth: 540, lineHeight: 1.7, fontSize: "0.86rem" }}>
+            Senior multidisciplinary crew across strategy, design, and implementation.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: state.baseSpacing * 2 }}>
-            {team.map((member) => (
-              <div key={member.name} style={{ textAlign: "center" }}>
-                <div
-                  style={{
-                    width: 80,
-                    height: 80,
-                    borderRadius: "50%",
-                    background: `linear-gradient(135deg, ${state.primary}30 0%, ${state.accent}30 100%)`,
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: 0,
-                    marginBottom: state.baseSpacing,
-                  }}
-                />
-                <h3 style={{ fontWeight: 600, marginBottom: 2, fontSize: "0.9375rem" }}>{member.name}</h3>
-                <p style={{ opacity: 0.5, fontSize: "0.75rem" }}>{member.role}</p>
-              </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: space(1.25) }}>
+            {team.map((member, index) => (
+              <PreviewCard key={member.name} state={state} variant="base">
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <span
+                    style={{
+                      width: 42,
+                      height: 42,
+                      borderRadius: "50%",
+                      background: index % 2 === 0 ? `${state.primary}2d` : `${state.accent}2d`,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 700,
+                      fontSize: "0.75rem",
+                    }}
+                  >
+                    {member.name
+                      .split(" ")
+                      .map((chunk) => chunk[0])
+                      .join("")
+                      .slice(0, 2)}
+                  </span>
+                  <div>
+                    <p style={{ margin: 0, fontWeight: 650, fontSize: "0.86rem" }}>{member.name}</p>
+                    <p style={{ margin: "3px 0 0", opacity: 0.64, fontSize: "0.74rem" }}>{member.role}</p>
+                  </div>
+                </div>
+                <p style={{ margin: 0, opacity: 0.72, fontSize: "0.8rem", lineHeight: 1.6 }}>{member.focus}</p>
+              </PreviewCard>
             ))}
           </div>
         </div>
       </section>
-
-      {/* CTA */}
-      <section
-        style={{
-          padding: `${state.baseSpacing * 6}px ${state.baseSpacing * 2}px`,
-          textAlign: "center",
-          background: `linear-gradient(135deg, ${state.primary}10 0%, ${state.accent}10 100%)`,
-        }}
-      >
-        <h2
-          style={{
-            fontSize: `calc(2rem * ${state.typeScale})`,
-            fontWeight: 700,
-            marginBottom: state.baseSpacing,
-          }}
-        >
-          Ready to start something great?
-        </h2>
-        <p style={{ opacity: 0.6, marginBottom: state.baseSpacing * 2, maxWidth: 400, marginLeft: "auto", marginRight: "auto" }}>
-          Let&apos;s discuss your next project and see how we can help bring your vision to life.
-        </p>
-        <PreviewButton state={state} variant="primary">Get in Touch</PreviewButton>
-      </section>
-
-      {/* Footer */}
-      <footer
-        style={{
-          padding: `${state.baseSpacing * 3}px ${state.baseSpacing * 2}px`,
-          borderTop: s.border,
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-          gap: state.baseSpacing * 3,
-        }}
-      >
-        <div>
-          <div style={{ fontWeight: 700, fontSize: "1.25rem", marginBottom: state.baseSpacing, letterSpacing: 2 }}>AGENCY</div>
-          <p style={{ opacity: 0.5, fontSize: "0.875rem", lineHeight: 1.6 }}>
-            Creating meaningful connections between brands and people since 2015.
-          </p>
-        </div>
-        <div>
-          <div style={{ fontWeight: 600, marginBottom: state.baseSpacing, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: 1, opacity: 0.5 }}>Services</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: state.baseSpacing / 2, fontSize: "0.875rem" }}>
-            <a href="#" style={{ opacity: 0.7 }}>Branding</a>
-            <a href="#" style={{ opacity: 0.7 }}>Design</a>
-            <a href="#" style={{ opacity: 0.7 }}>Marketing</a>
-          </div>
-        </div>
-        <div>
-          <div style={{ fontWeight: 600, marginBottom: state.baseSpacing, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: 1, opacity: 0.5 }}>Company</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: state.baseSpacing / 2, fontSize: "0.875rem" }}>
-            <a href="#" style={{ opacity: 0.7 }}>About</a>
-            <a href="#" style={{ opacity: 0.7 }}>Careers</a>
-            <a href="#" style={{ opacity: 0.7 }}>Contact</a>
-          </div>
-        </div>
-        <div>
-          <div style={{ fontWeight: 600, marginBottom: state.baseSpacing, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: 1, opacity: 0.5 }}>Social</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: state.baseSpacing / 2, fontSize: "0.875rem" }}>
-            <a href="#" style={{ opacity: 0.7 }}>Twitter</a>
-            <a href="#" style={{ opacity: 0.7 }}>Instagram</a>
-            <a href="#" style={{ opacity: 0.7 }}>LinkedIn</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

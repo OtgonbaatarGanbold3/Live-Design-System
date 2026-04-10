@@ -1,58 +1,149 @@
 "use client";
 
+import {
+  Heart,
+  RefreshCcw,
+  ShieldCheck,
+  Star,
+  Truck,
+} from "lucide-react";
 import type { DesignState } from "@/lib/design-state";
-import { getPreviewStyles, PreviewButton } from "./shared-styles";
+import {
+  getPreviewStyles,
+  PreviewBadge,
+  PreviewButton,
+  PreviewCard,
+} from "./shared-styles";
 
 interface EcommerceProps {
   state: DesignState;
 }
 
+interface Product {
+  name: string;
+  price: string;
+  tag?: string;
+  rating: number;
+  reviews: number;
+  stock: "In Stock" | "Low Stock";
+  colors: string[];
+  variants: string[];
+}
+
 export function Ecommerce({ state }: EcommerceProps) {
   const s = getPreviewStyles(state);
+  const space = s.helpers.space;
 
-  const products = [
-    { name: "Minimal Watch", price: "$249", tag: "New" },
-    { name: "Leather Wallet", price: "$89", tag: null },
-    { name: "Canvas Bag", price: "$159", tag: "Best Seller" },
-    { name: "Sunglasses", price: "$179", tag: null },
-    { name: "Ceramic Vase", price: "$69", tag: null },
-    { name: "Desk Lamp", price: "$129", tag: "New" },
+  const products: Product[] = [
+    {
+      name: "Minimal Watch",
+      price: "$249",
+      tag: "New",
+      rating: 5,
+      reviews: 142,
+      stock: "In Stock",
+      colors: ["#1f2937", "#d1d5db", "#9ca3af"],
+      variants: ["38mm", "42mm"],
+    },
+    {
+      name: "Leather Wallet",
+      price: "$89",
+      rating: 4,
+      reviews: 84,
+      stock: "In Stock",
+      colors: ["#3f2a1d", "#7c4f2d"],
+      variants: ["Classic"],
+    },
+    {
+      name: "Canvas Bag",
+      price: "$159",
+      tag: "Best Seller",
+      rating: 5,
+      reviews: 320,
+      stock: "Low Stock",
+      colors: ["#111827", "#f3f4f6", "#1d4ed8"],
+      variants: ["S", "M", "L"],
+    },
+    {
+      name: "Sunglasses",
+      price: "$179",
+      rating: 4,
+      reviews: 96,
+      stock: "In Stock",
+      colors: ["#111827", "#374151"],
+      variants: ["Polarized", "Classic"],
+    },
+    {
+      name: "Ceramic Vase",
+      price: "$69",
+      rating: 4,
+      reviews: 58,
+      stock: "Low Stock",
+      colors: ["#e5e7eb", "#f5f5f4"],
+      variants: ["Small", "Large"],
+    },
+    {
+      name: "Desk Lamp",
+      price: "$129",
+      tag: "New",
+      rating: 5,
+      reviews: 211,
+      stock: "In Stock",
+      colors: ["#18181b", "#fafaf9", "#fde68a"],
+      variants: ["Warm", "Neutral"],
+    },
   ];
 
   const categories = [
-    { name: "Accessories", count: 24 },
-    { name: "Home", count: 18 },
-    { name: "Lifestyle", count: 12 },
+    { name: "Accessories", count: 24, description: "Daily carry essentials" },
+    { name: "Home", count: 18, description: "Objects for calm spaces" },
+    { name: "Lifestyle", count: 12, description: "Well-made everyday goods" },
+    { name: "Gifting", count: 9, description: "Curated premium sets" },
   ];
 
   const features = [
-    { title: "Free Shipping", desc: "On orders over $100" },
-    { title: "Easy Returns", desc: "30-day return policy" },
-    { title: "Secure Payment", desc: "256-bit SSL encryption" },
+    { title: "Free Shipping", desc: "On orders over $100", icon: Truck },
+    { title: "Easy Returns", desc: "30-day return policy", icon: RefreshCcw },
+    { title: "Secure Checkout", desc: "256-bit encryption", icon: ShieldCheck },
   ];
 
   const reviews = [
-    { author: "Sarah M.", text: "Beautiful quality, exactly as pictured. Will order again!", rating: 5 },
-    { author: "James K.", text: "Fast shipping and excellent customer service.", rating: 5 },
+    {
+      author: "Sarah M.",
+      text: "Beautiful quality and surprisingly premium packaging. Exactly what I expected.",
+      rating: 5,
+      product: "Minimal Watch",
+    },
+    {
+      author: "James K.",
+      text: "Fast shipping and support was genuinely helpful when I changed my order.",
+      rating: 5,
+      product: "Canvas Bag",
+    },
+    {
+      author: "Mina R.",
+      text: "Design is clean and materials feel durable. Will definitely buy again.",
+      rating: 4,
+      product: "Desk Lamp",
+    },
   ];
 
   return (
     <div style={s.root} className="preview-reset">
-      {/* Announcement Bar */}
       <div
         style={{
           background: state.primary,
           color: state.background,
           textAlign: "center",
-          padding: `${state.baseSpacing / 2}px`,
-          fontSize: "0.75rem",
-          fontWeight: 500,
+          padding: `${space(0.5)}px`,
+          fontSize: "0.74rem",
+          fontWeight: 600,
+          letterSpacing: 0.4,
         }}
       >
         Free shipping on orders over $100 | Use code WELCOME10 for 10% off
       </div>
 
-      {/* Sticky Nav */}
       <nav
         style={{
           position: "sticky",
@@ -60,343 +151,317 @@ export function Ecommerce({ state }: EcommerceProps) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: `${state.baseSpacing}px ${state.baseSpacing * 2}px`,
+          padding: `${space(1)}px ${space(2)}px`,
           borderBottom: s.border,
-          background: state.preset === "Glassmorphism" ? "rgba(255,255,255,0.1)" : state.background,
-          backdropFilter: state.preset === "Glassmorphism" ? "blur(10px)" : undefined,
-          zIndex: 10,
+          background: state.background,
+          zIndex: 20,
         }}
       >
-        <div style={{ fontWeight: 700, fontSize: "1.25rem", letterSpacing: 2 }}>STORE</div>
-        <div style={{ display: "flex", gap: state.baseSpacing * 2, fontSize: "0.875rem", flexWrap: "wrap", justifyContent: "center" }}>
-          <a href="#" style={{ opacity: 0.8 }}>Shop</a>
-          <a href="#" style={{ opacity: 0.8 }}>Collections</a>
-          <a href="#" style={{ opacity: 0.8 }}>About</a>
+        <div style={{ fontWeight: 800, letterSpacing: 2.2 }}>STORE</div>
+        <div style={{ display: "flex", gap: space(1.5), fontSize: "0.84rem", opacity: 0.8 }}>
+          <a href="#">Shop</a>
+          <a href="#">Collections</a>
+          <a href="#">Journal</a>
+          <a href="#">About</a>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: state.baseSpacing }}>
-          <button style={{ background: "none", border: "none", color: state.text, cursor: "pointer" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8" />
-              <path d="M21 21l-4.35-4.35" />
-            </svg>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <button
+            type="button"
+            style={{
+              border: "none",
+              background: "transparent",
+              display: "inline-flex",
+              alignItems: "center",
+              cursor: "pointer",
+              color: state.text,
+            }}
+          >
+            <Heart size={17} />
           </button>
-          <button style={{ background: "none", border: "none", color: state.text, cursor: "pointer", position: "relative" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <path d="M16 10a4 4 0 01-8 0" />
-            </svg>
-            <span
-              style={{
-                position: "absolute",
-                top: -4,
-                right: -4,
-                width: 16,
-                height: 16,
-                borderRadius: "50%",
-                background: state.primary,
-                color: state.background,
-                fontSize: "0.625rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: 600,
-              }}
-            >
-              3
-            </span>
-          </button>
+          <PreviewBadge state={state} tone="accent">
+            Cart (3)
+          </PreviewBadge>
         </div>
       </nav>
 
-      {/* Hero Banner */}
       <section
         style={{
-          padding: `${state.baseSpacing * 6}px ${state.baseSpacing * 2}px`,
-          background: `linear-gradient(135deg, ${state.primary}10 0%, ${state.accent}10 100%)`,
+          padding: `${space(5.5)}px ${space(2)}px`,
+          background: `linear-gradient(150deg, ${state.primary}16 0%, ${state.accent}16 100%)`,
           textAlign: "center",
         }}
       >
-        <span
-          style={{
-            display: "inline-block",
-            padding: `${state.baseSpacing / 4}px ${state.baseSpacing}px`,
-            background: `${state.accent}20`,
-            color: state.accent,
-            borderRadius: state.borderRadius * 2,
-            fontSize: "0.75rem",
-            fontWeight: 600,
-            marginBottom: state.baseSpacing,
-          }}
-        >
+        <PreviewBadge state={state} tone="accent">
           New Collection
-        </span>
+        </PreviewBadge>
         <h1
           style={{
-            fontSize: `calc(2.5rem * ${state.typeScale})`,
-            fontWeight: state.fontWeight === "Light" ? 300 : state.fontWeight === "Bold" ? 700 : 400,
-            marginBottom: state.baseSpacing,
-            lineHeight: 1.1,
+            fontSize: `calc(2.65rem * ${state.typeScale})`,
+            margin: `${space(1.5)}px 0 8px`,
+            lineHeight: s.helpers.lineHeight.tight,
+            letterSpacing: -0.6,
           }}
         >
           Spring Essentials
         </h1>
-        <p style={{ opacity: 0.6, maxWidth: 450, marginLeft: "auto", marginRight: "auto", marginTop: 0, marginBottom: state.baseSpacing * 2, lineHeight: 1.6 }}>
-          Discover our curated selection of minimalist products designed for modern living.
+        <p
+          style={{
+            maxWidth: 560,
+            margin: `0 auto ${space(2)}px`,
+            opacity: 0.72,
+            lineHeight: s.helpers.lineHeight.relaxed,
+            fontSize: "0.98rem",
+          }}
+        >
+          Curated modern goods designed to age beautifully. Durable materials, minimal form,
+          and everyday comfort.
         </p>
-        <div style={{ display: "flex", gap: state.baseSpacing, justifyContent: "center" }}>
-          <PreviewButton state={state} variant="primary">Shop Now</PreviewButton>
-          <PreviewButton state={state} variant="secondary">View Lookbook</PreviewButton>
+        <div style={{ display: "flex", justifyContent: "center", gap: space(1), flexWrap: "wrap" }}>
+          <PreviewButton state={state} variant="primary">
+            Shop Best Sellers
+          </PreviewButton>
+          <PreviewButton state={state} variant="secondary">
+            View Lookbook
+          </PreviewButton>
         </div>
       </section>
 
-      {/* Category Cards */}
-      <section style={{ padding: `${state.baseSpacing * 3}px ${state.baseSpacing * 2}px` }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: state.baseSpacing * 1.5 }}>
-          {categories.map((cat, i) => (
-            <div
-              key={cat.name}
+      <section style={{ padding: `${space(3)}px ${space(2)}px` }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 10, maxWidth: 1020, margin: "0 auto" }}>
+          {categories.map((category, index) => (
+            <PreviewCard
+              key={category.name}
+              state={state}
+              variant="subtle"
               style={{
-                padding: state.baseSpacing * 2,
-                borderRadius: state.borderRadius,
-                background: `${[state.primary, state.accent, state.secondary][i]}10`,
-                border: s.border,
-                cursor: "pointer",
-                textAlign: "center",
+                background: `${[state.primary, state.accent, state.secondary, state.primary][index]}14`,
+                textAlign: "left",
               }}
             >
-              <h3 style={{ fontWeight: 600, marginBottom: 4 }}>{cat.name}</h3>
-              <p style={{ fontSize: "0.75rem", opacity: 0.5 }}>{cat.count} products</p>
-            </div>
+              <p style={{ margin: 0, fontWeight: 650, fontSize: "0.92rem" }}>{category.name}</p>
+              <p style={{ margin: "5px 0", opacity: 0.56, fontSize: "0.74rem" }}>{category.description}</p>
+              <p style={{ margin: 0, fontSize: "0.72rem", color: state.primary, fontWeight: 650 }}>
+                {category.count} products
+              </p>
+            </PreviewCard>
           ))}
         </div>
       </section>
 
-      {/* Product Grid */}
-      <section style={{ padding: `${state.baseSpacing * 3}px ${state.baseSpacing * 2}px` }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: state.baseSpacing * 2 }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 600 }}>Featured Products</h2>
-          <div style={{ display: "flex", gap: state.baseSpacing, fontSize: "0.875rem" }}>
-            <span style={{ fontWeight: 600 }}>All</span>
-            <span style={{ opacity: 0.5 }}>New</span>
-            <span style={{ opacity: 0.5 }}>Best Sellers</span>
+      <section style={{ padding: `${space(2)}px ${space(2)}px ${space(4)}px` }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: 1080, margin: `0 auto ${space(1.5)}px` }}>
+          <h2 style={{ margin: 0, fontSize: `calc(1.45rem * ${state.typeScale})` }}>Featured products</h2>
+          <div style={{ display: "flex", gap: 8 }}>
+            <PreviewBadge state={state} tone="neutral">All</PreviewBadge>
+            <PreviewBadge state={state} tone="accent">Best sellers</PreviewBadge>
           </div>
         </div>
+
         <div
           style={{
+            maxWidth: 1080,
+            margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: state.baseSpacing * 2,
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: space(1.25),
           }}
         >
-          {products.map((product) => (
-            <div
-              key={product.name}
-              style={{
-                background: state.preset === "Glassmorphism" ? "rgba(255,255,255,0.05)" : `${state.secondary}05`,
-                borderRadius: state.borderRadius,
-                border: s.border,
-                overflow: "hidden",
-              }}
-            >
+          {products.map((product, index) => (
+            <PreviewCard key={product.name} state={state} variant="base" style={{ padding: 0, overflow: "hidden" }}>
               <div
                 style={{
-                  aspectRatio: "1",
-                  background: `${state.secondary}10`,
+                  aspectRatio: "1 / 1",
+                  background: `linear-gradient(145deg, ${[state.primary, state.accent, state.secondary, state.primary, state.accent, state.secondary][index]}20 0%, ${state.background} 75%)`,
+                  position: "relative",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  position: "relative",
                 }}
               >
                 {product.tag && (
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: state.baseSpacing,
-                      left: state.baseSpacing,
-                      padding: `2px ${state.baseSpacing / 2}px`,
-                      background: product.tag === "New" ? state.accent : state.primary,
-                      color: state.background,
-                      fontSize: "0.625rem",
-                      fontWeight: 600,
-                      borderRadius: 4,
-                      textTransform: "uppercase",
-                    }}
-                  >
+                  <PreviewBadge state={state} tone="accent" style={{ position: "absolute", top: 10, left: 10 }}>
                     {product.tag}
-                  </span>
+                  </PreviewBadge>
                 )}
+
+                {product.stock === "Low Stock" && (
+                  <PreviewBadge state={state} tone="primary" style={{ position: "absolute", top: 10, right: 10 }}>
+                    Low stock
+                  </PreviewBadge>
+                )}
+
                 <div
                   style={{
-                    width: "50%",
-                    height: "50%",
-                    background: `${state.primary}15`,
-                    borderRadius: state.borderRadius,
+                    width: "56%",
+                    height: "56%",
+                    borderRadius: Math.max(12, state.borderRadius),
+                    border: `1px solid ${state.secondary}40`,
+                    background: `${state.background}c9`,
+                    boxShadow: "0 14px 28px rgba(0,0,0,0.14)",
                   }}
                 />
               </div>
-              <div style={{ padding: state.baseSpacing }}>
-                <h3 style={{ fontWeight: 500, marginBottom: 4, fontSize: "0.9375rem" }}>{product.name}</h3>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontWeight: 600, color: state.primary }}>{product.price}</span>
+
+              <div style={{ padding: space(1) }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", gap: 8 }}>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: "0.98rem" }}>{product.name}</h3>
+                    <p style={{ margin: "4px 0 0", color: state.primary, fontWeight: 700 }}>{product.price}</p>
+                  </div>
                   <button
+                    type="button"
                     style={{
-                      background: state.buttonStyle === "Filled" ? state.primary : "transparent",
-                      color: state.buttonStyle === "Filled" ? state.background : state.primary,
-                      border: state.buttonStyle === "Outline" ? `1px solid ${state.primary}` : "none",
-                      padding: `${state.baseSpacing / 4}px ${state.baseSpacing}px`,
-                      borderRadius: state.borderRadius,
-                      fontSize: "0.75rem",
-                      fontWeight: 500,
+                      border: `1px solid ${state.secondary}40`,
+                      background: "transparent",
+                      borderRadius: 999,
+                      width: 28,
+                      height: 28,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: state.text,
                       cursor: "pointer",
                     }}
                   >
-                    Add
+                    <Heart size={13} />
                   </button>
                 </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: 2, marginTop: 8 }}>
+                  {Array.from({ length: 5 }).map((_, starIndex) => (
+                    <Star
+                      key={starIndex}
+                      size={12}
+                      color={starIndex < product.rating ? state.accent : `${state.secondary}55`}
+                      fill={starIndex < product.rating ? state.accent : "none"}
+                    />
+                  ))}
+                  <span style={{ marginLeft: 6, fontSize: "0.72rem", opacity: 0.6 }}>({product.reviews})</span>
+                </div>
+
+                <div style={{ marginTop: 9, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: "0.72rem", opacity: 0.6 }}>Colors:</span>
+                  {product.colors.map((color) => (
+                    <span
+                      key={color}
+                      style={{
+                        width: 12,
+                        height: 12,
+                        borderRadius: "50%",
+                        background: color,
+                        border: "1px solid rgba(0,0,0,0.16)",
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div style={{ marginTop: 8, display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  {product.variants.map((variant) => (
+                    <PreviewBadge key={variant} state={state} tone="neutral" style={{ fontSize: "0.62rem" }}>
+                      {variant}
+                    </PreviewBadge>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "0.72rem", color: product.stock === "Low Stock" ? state.accent : state.primary, fontWeight: 650 }}>
+                    {product.stock}
+                  </span>
+                  <PreviewButton state={state} variant="primary">
+                    Add to Cart
+                  </PreviewButton>
+                </div>
               </div>
-            </div>
+            </PreviewCard>
           ))}
-        </div>
-        <div style={{ textAlign: "center", marginTop: state.baseSpacing * 2 }}>
-          <PreviewButton state={state} variant="secondary">View All Products</PreviewButton>
         </div>
       </section>
 
-      {/* Features */}
-      <section
-        style={{
-          padding: `${state.baseSpacing * 3}px ${state.baseSpacing * 2}px`,
-          borderTop: s.border,
-          borderBottom: s.border,
-        }}
-      >
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: state.baseSpacing * 2 }}>
-          {features.map((feature, i) => (
-            <div key={feature.title} style={{ textAlign: "center" }}>
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: "50%",
-                  background: `${[state.primary, state.accent, state.secondary][i]}15`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  marginBottom: state.baseSpacing,
-                }}
-              >
-                <div style={{ width: 16, height: 16, borderRadius: "50%", background: [state.primary, state.accent, state.secondary][i] }} />
-              </div>
-              <h4 style={{ fontWeight: 600, marginBottom: 4, fontSize: "0.875rem" }}>{feature.title}</h4>
-              <p style={{ fontSize: "0.75rem", opacity: 0.5 }}>{feature.desc}</p>
-            </div>
-          ))}
+      <section style={{ padding: `${space(2.5)}px ${space(2)}px`, borderTop: s.border, borderBottom: s.border }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: space(1.25) }}>
+          {features.map((feature) => {
+            const Icon = feature.icon;
+            return (
+              <PreviewCard key={feature.title} state={state} variant="subtle" style={{ textAlign: "center", padding: space(1) }}>
+                <span
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: "50%",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: `${state.primary}1e`,
+                    marginBottom: 8,
+                  }}
+                >
+                  <Icon size={15} color={state.primary} />
+                </span>
+                <p style={{ margin: 0, fontWeight: 650, fontSize: "0.84rem" }}>{feature.title}</p>
+                <p style={{ margin: "4px 0 0", fontSize: "0.76rem", opacity: 0.62 }}>{feature.desc}</p>
+              </PreviewCard>
+            );
+          })}
         </div>
       </section>
 
-      {/* Reviews */}
-      <section style={{ padding: `${state.baseSpacing * 4}px ${state.baseSpacing * 2}px` }}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, textAlign: "center", marginBottom: state.baseSpacing * 2 }}>
-          What Our Customers Say
+      <section style={{ padding: `${space(3)}px ${space(2)}px ${space(4)}px` }}>
+        <h2 style={{ textAlign: "center", marginTop: 0, marginBottom: 8, fontSize: `calc(1.3rem * ${state.typeScale})` }}>
+          What customers say
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: state.baseSpacing * 2, maxWidth: 700, marginLeft: "auto", marginRight: "auto" }}>
-          {reviews.map((review, i) => (
-            <div
-              key={i}
-              style={{
-                padding: state.baseSpacing * 1.5,
-                borderRadius: state.borderRadius,
-                background: state.preset === "Glassmorphism" ? "rgba(255,255,255,0.05)" : `${state.secondary}05`,
-                border: s.border,
-              }}
-            >
-              <div style={{ marginBottom: state.baseSpacing, color: state.accent }}>
-                {"★".repeat(review.rating)}
+        <p style={{ textAlign: "center", margin: `0 0 ${space(1.5)}px`, opacity: 0.66, fontSize: "0.84rem" }}>
+          Verified reviews from recent orders.
+        </p>
+
+        <div style={{ maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: space(1.25) }}>
+          {reviews.map((review, index) => (
+            <PreviewCard key={review.author} state={state} variant="subtle">
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                <div style={{ display: "flex", gap: 2 }}>
+                  {Array.from({ length: 5 }).map((_, starIndex) => (
+                    <Star
+                      key={starIndex}
+                      size={12}
+                      color={starIndex < review.rating ? state.accent : `${state.secondary}60`}
+                      fill={starIndex < review.rating ? state.accent : "none"}
+                    />
+                  ))}
+                </div>
+                <PreviewBadge state={state} tone="neutral" style={{ fontSize: "0.62rem" }}>
+                  {review.product}
+                </PreviewBadge>
               </div>
-              <p style={{ fontSize: "0.875rem", lineHeight: 1.6, marginBottom: state.baseSpacing, opacity: 0.8 }}>
+
+              <p style={{ margin: 0, lineHeight: 1.65, opacity: 0.78, fontSize: "0.84rem" }}>
                 &ldquo;{review.text}&rdquo;
               </p>
-              <span style={{ fontSize: "0.75rem", fontWeight: 600 }}>{review.author}</span>
-            </div>
+
+              <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                <span
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    background: index % 2 === 0 ? `${state.primary}2c` : `${state.accent}2c`,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: 700,
+                    fontSize: "0.72rem",
+                  }}
+                >
+                  {review.author
+                    .split(" ")
+                    .map((chunk) => chunk[0])
+                    .join("")
+                    .slice(0, 2)}
+                </span>
+                <span style={{ fontSize: "0.78rem", fontWeight: 600 }}>{review.author}</span>
+              </div>
+            </PreviewCard>
           ))}
         </div>
       </section>
-
-      {/* Newsletter */}
-      <section
-        style={{
-          padding: `${state.baseSpacing * 4}px ${state.baseSpacing * 2}px`,
-          background: `linear-gradient(135deg, ${state.accent}10 0%, ${state.primary}10 100%)`,
-          textAlign: "center",
-        }}
-      >
-        <h3 style={{ fontWeight: 600, marginBottom: state.baseSpacing / 2 }}>Join our newsletter</h3>
-        <p style={{ opacity: 0.6, fontSize: "0.875rem", marginBottom: state.baseSpacing * 1.5 }}>
-          Get 10% off your first order and stay updated on new arrivals.
-        </p>
-        <div style={{ display: "flex", gap: state.baseSpacing, justifyContent: "center", maxWidth: 400, marginLeft: "auto", marginRight: "auto", flexWrap: "wrap" }}>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            style={{
-              flex: 1,
-              padding: `${state.baseSpacing / 2}px ${state.baseSpacing}px`,
-              borderRadius: state.borderRadius,
-              border: s.border,
-              background: state.background,
-              color: state.text,
-              fontFamily: "inherit",
-            }}
-          />
-          <PreviewButton state={state} variant="primary">Subscribe</PreviewButton>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer
-        style={{
-          padding: `${state.baseSpacing * 3}px ${state.baseSpacing * 2}px`,
-          borderTop: s.border,
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-          gap: state.baseSpacing * 3,
-        }}
-      >
-        <div>
-          <div style={{ fontWeight: 700, fontSize: "1.25rem", marginBottom: state.baseSpacing, letterSpacing: 2 }}>STORE</div>
-          <p style={{ opacity: 0.5, fontSize: "0.875rem", lineHeight: 1.6 }}>
-            Thoughtfully designed products for everyday life. Quality you can feel.
-          </p>
-        </div>
-        <div>
-          <div style={{ fontWeight: 600, marginBottom: state.baseSpacing, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: 1, opacity: 0.5 }}>Shop</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: state.baseSpacing / 2, fontSize: "0.875rem" }}>
-            <a href="#" style={{ opacity: 0.7 }}>All Products</a>
-            <a href="#" style={{ opacity: 0.7 }}>New Arrivals</a>
-            <a href="#" style={{ opacity: 0.7 }}>Best Sellers</a>
-          </div>
-        </div>
-        <div>
-          <div style={{ fontWeight: 600, marginBottom: state.baseSpacing, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: 1, opacity: 0.5 }}>Help</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: state.baseSpacing / 2, fontSize: "0.875rem" }}>
-            <a href="#" style={{ opacity: 0.7 }}>FAQs</a>
-            <a href="#" style={{ opacity: 0.7 }}>Shipping</a>
-            <a href="#" style={{ opacity: 0.7 }}>Returns</a>
-          </div>
-        </div>
-        <div>
-          <div style={{ fontWeight: 600, marginBottom: state.baseSpacing, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: 1, opacity: 0.5 }}>Follow</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: state.baseSpacing / 2, fontSize: "0.875rem" }}>
-            <a href="#" style={{ opacity: 0.7 }}>Instagram</a>
-            <a href="#" style={{ opacity: 0.7 }}>Twitter</a>
-            <a href="#" style={{ opacity: 0.7 }}>Pinterest</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
